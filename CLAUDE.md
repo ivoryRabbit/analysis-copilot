@@ -1,4 +1,4 @@
-# mini-data-catalog
+# trino-studio
 
 데이터 분석가가 자연어로 질문하면 SQL 생성 → 실행 → 차트까지 대화형으로 처리하는 로컬 분석 환경.
 API 서버 없이 **Trino + DuckDB + 로컬 YAML 온톨로지**로 동작한다.

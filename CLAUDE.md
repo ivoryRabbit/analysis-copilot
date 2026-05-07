@@ -149,11 +149,13 @@ catalogs:
 
 ---
 
-## 회사 Trino 전환
+## Trino 환경 전환
 
-1. `scripts/run_query.py`의 `host`/`port`를 실제 Trino 엔드포인트로 변경
-2. `catalog/schema.yaml`을 실제 스키마 + 관계 정의로 교체 (또는 `/sync`로 자동 생성)
-3. DuckDB scratch는 그대로 사용 가능
+로컬 샘플(memory connector) 대신 다른 Trino 환경으로 전환하는 방법:
+
+1. `scripts/run_query.py`의 `host`/`port`를 대상 Trino 엔드포인트로 변경
+2. `catalog/schema.yaml`을 해당 환경의 스키마 + 관계 정의로 교체 (또는 `/sync`로 자동 생성)
+3. DuckDB scratch는 환경에 무관하게 그대로 사용 가능
 
 ---
 

@@ -143,8 +143,5 @@ claude
 ## 참고
 
 - cmux는 `CMUX_WORKSPACE_ID`, `CMUX_SURFACE_ID` 환경변수를 자동 주입합니다.
-- SSH·CI 환경에서는 cmux를 사용할 수 없습니다. 폴백으로 tmux를 사용하세요:
-
-```bash
-command -v cmux >/dev/null && cmux new-split right || tmux split-window -h
-```
+- cmux 명령어(`cmux new-split`, `cmux send` 등)는 tmux 명령어와 다릅니다. tmux 명령어를 사용하지 마세요.
+- SSH·CI 환경에서는 cmux를 사용할 수 없습니다.

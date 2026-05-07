@@ -46,14 +46,7 @@ cmux browser wait --text "Welcome" --timeout-ms 5000
 cmux browser screenshot --out ./shot.png
 ```
 
-## tmux → cmux 변환
-
-| tmux | cmux |
-|------|------|
-| `tmux split-window -v` | `cmux new-split down` |
-| `tmux send-keys -t %1 "cmd" C-m` | `cmux send --surface surface:1 "cmd\n"` |
-| `tmux capture-pane -t %1 -p` | `cmux capture-pane --surface surface:1` |
-
 ## 주의
-- SSH/CI에서 cmux 불가 → `command -v cmux >/dev/null || tmux ...` 폴백
+- cmux 명령어는 항상 `cmux <subcommand>` 형식 — tmux 명령어(`tmux split-window` 등)와 다르므로 혼용 금지
+- SSH/CI 환경에서는 cmux를 사용할 수 없음
 - `CMUX_WORKSPACE_ID` 없으면 cmux 터미널 밖에서 실행 중인 것

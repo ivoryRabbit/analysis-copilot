@@ -110,6 +110,13 @@ analytics-copilot/
 
 ---
 
+## 참고 문서
+
+- [CLAUDE.md](./CLAUDE.md) — 아키텍처 및 상세 가이드
+- [docs/cmux-setup.md](./docs/cmux-setup.md) — cmux 멀티패널 환경 설정
+
+---
+
 ## 라이선스
 
 MIT

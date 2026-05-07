@@ -10,6 +10,22 @@ st.set_page_config(
     page_icon=":open_book:"
 )
 
+st.markdown("""
+<style>
+.streamlit-expanderContent div {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+}
+[data-testid="stExpanderToggleIcon"] {
+    visibility: hidden;
+}
+[data-testid="stElementToolbar"] {
+    visibility: hidden;
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.title("Data Source")
 
 data_source_types = [
@@ -52,6 +68,7 @@ with st.container(border=True):
         "**데이터 소스**를 추가해주세요",
         options=data_source_types,
         index=None,
+        placeholder="Select a data source",
     )
 
 

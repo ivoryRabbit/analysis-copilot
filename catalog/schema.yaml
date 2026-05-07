@@ -1,0 +1,63 @@
+catalogs:
+  memory:
+    schemas:
+      default:
+        relationships:
+          - name: ratings_to_users
+            from: ratings.user_id
+            to: users.id
+            join: "ratings r JOIN users u ON r.user_id = u.id"
+          - name: ratings_to_movies
+            from: ratings.movie_id
+            to: movies.id
+            join: "ratings r JOIN movies m ON r.movie_id = m.id"
+          - name: ratings_to_users_movies
+            from: [ratings.user_id, ratings.movie_id]
+            to: [users.id, movies.id]
+            join: "ratings r JOIN users u ON r.user_id = u.id JOIN movies m ON r.movie_id = m.id"
+        tables:
+          movies:
+            description: 영화 정보 (MovieLens 기반 샘플 데이터)
+            columns:
+            - name: id
+              type: bigint
+              description: 영화 고유 ID
+            - name: title
+              type: varchar
+              description: 영화 제목
+            - name: genres
+              type: varchar
+              description: '장르 (파이프로 구분, 예: Action|Comedy)'
+            - name: release_year
+              type: integer
+              description: 개봉 연도
+          ratings:
+            description: 사용자별 영화 평점
+            columns:
+            - name: user_id
+              type: bigint
+              description: 사용자 ID (users.id 참조)
+            - name: movie_id
+              type: bigint
+              description: 영화 ID (movies.id 참조)
+            - name: rating
+              type: double
+              description: 평점 (1.0 ~ 5.0)
+            - name: rated_at
+              type: timestamp(3)
+              description: 평점 등록 시각
+          users:
+            description: 사용자 정보
+            columns:
+            - name: id
+              type: bigint
+              description: 사용자 고유 ID
+            - name: gender
+              type: varchar
+              description: 성별 (M/F)
+            - name: age
+              type: integer
+              description: 나이
+            - name: occupation
+              type: integer
+              description: 직업 코드 (0~20)

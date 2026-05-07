@@ -8,6 +8,9 @@ pages = {
     "Data Catalog": [
         st.Page("pages/data_catalog.py", title="Data Catalog"),
     ],
+    "Temp": [
+        st.Page("pages/recap.py", title="2024 Recap"),
+    ],
 }
 
 pg = st.navigation(pages)

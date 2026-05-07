@@ -1,4 +1,4 @@
-# analysis-copilot
+# analytics-copilot
 
 > 데이터 분석가를 위한 대화형 SQL 분석 환경
 

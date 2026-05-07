@@ -83,7 +83,7 @@ Claude Code 커스텀 스킬로 분석 워크플로우를 실행합니다.
 ## 아키텍처
 
 ```
-trino-studio/
+analytics-copilot/
 ├── catalog/
 │   └── schema.yaml       # 테이블·컬럼 메타데이터 + FK 관계 정의
 ├── scripts/
@@ -107,17 +107,6 @@ trino-studio/
 |----------|------|
 | `scratch.*` 테이블 참조 | DuckDB |
 | `memory.default.*` 또는 Trino 카탈로그 | Trino |
-
----
-
-## 회사 Trino 연결
-
-로컬 샘플 환경에서 실제 회사 Trino로 전환하려면:
-
-1. `scripts/run_query.py`의 `host` / `port` 수정
-2. `catalog/schema.yaml`을 실제 스키마로 교체하거나 `/sync` 실행
-
-DuckDB scratch는 그대로 사용 가능합니다.
 
 ---
 

@@ -28,10 +28,24 @@ cat catalog/schema.yaml
    ├─ users     — 사용자 정보
    └─ ratings   — 사용자별 영화 평점
 
-관계 그래프:
-  ratings.user_id  →  users.id
-  ratings.movie_id →  movies.id
+JOIN 경로:
+  ratings ←→ users          ratings r JOIN users u ON r.user_id = u.id
+  ratings ←→ movies         ratings r JOIN movies m ON r.movie_id = m.id
+  ratings ←→ users + movies ratings r JOIN users u ON r.user_id = u.id JOIN movies m ON r.movie_id = m.id
 ```
+
+이어서 스키마의 테이블·컬럼·관계를 바탕으로 분석 가능한 질문을 3~5개 제안한다:
+
+```
+💡 분석 제안 (바로 /analyze로 실행 가능):
+  • 장르별 평균 평점과 평점 수
+  • 성별·나이대별 선호 장르
+  • 개봉 연도별 평점 트렌드
+  • 평점 상위 20개 영화 (최소 50개 평점 이상)
+  • 직업 코드별 평균 평점 분포
+```
+
+제안 질문은 실제 컬럼(genres, gender, age, occupation, release_year 등)과 relationships를 기반으로 생성한다. 단순 단일 테이블 질문보다 JOIN이 필요한 흥미로운 질문을 우선한다.
 
 **테이블 상세** (`/schema ratings`):
 
@@ -39,6 +53,8 @@ cat catalog/schema.yaml
 |------|------|------|
 | user_id | bigint | 사용자 ID (users.id 참조) |
 | ... | ... | ... |
+
+테이블 상세 출력 후에도 이 테이블과 JOIN 가능한 경로와 관련 분석 제안 2~3개를 덧붙인다.
 
 **관계 목록** (`/schema relationships`):
 

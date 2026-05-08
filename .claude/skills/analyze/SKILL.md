@@ -85,10 +85,7 @@ SELECT * FROM read_json_auto('/tmp/last_result.json') WHERE avg_rating > 3.2
 
 엔진은 자동 감지되므로 `--engine` 생략 가능:
 ```bash
-# Trino (memory.default.* 테이블)
-python scripts/run_query.py "<SQL>" json | tee /tmp/last_result.json
-
-# DuckDB (scratch.* 또는 read_json_auto 포함 시 자동 라우팅)
+set -o pipefail
 python scripts/run_query.py "<SQL>" json | tee /tmp/last_result.json
 ```
 
@@ -96,6 +93,18 @@ python scripts/run_query.py "<SQL>" json | tee /tmp/last_result.json
 ```bash
 python scripts/run_query.py "<SQL>" table
 ```
+
+**에러 처리 규칙**: 위 명령이 non-zero exit code로 실패하면 stderr의 `ERROR [engine]: <원인>` 메시지를 읽고 아래 순서로 수정 후 재실행한다.
+
+| 에러 패턴 | 수정 방향 |
+|-----------|-----------|
+| `Column '...' cannot be resolved` | 스키마에서 실제 컬럼명 확인 후 교체 |
+| `Table '...' does not exist` | `TRINO_CATALOG.TRINO_SCHEMA.<table>` 전체 경로 재확인 |
+| `mismatched input` / `syntax error` | SQL 문법 수정 (함수명, 괄호, 예약어 등) |
+| `Type mismatch` | 명시적 CAST 추가 |
+| 기타 | 에러 메시지 전문을 분석해 원인 파악 후 수정 |
+
+재실행 후에도 실패하면 에러 원인과 시도한 수정 내용을 사용자에게 설명하고 추가 정보를 요청한다.
 
 ### Step 5. 응답 형식
 

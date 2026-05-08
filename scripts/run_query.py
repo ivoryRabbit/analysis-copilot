@@ -48,14 +48,26 @@ def run_duckdb(sql: str) -> tuple[list[str], list]:
     return columns, rows
 
 
+def _extract_cause(exc: Exception) -> str:
+    msg = str(exc)
+    # TrinoQueryError는 첫 줄에 핵심 메시지가 담겨 있음
+    first_line = msg.splitlines()[0] if msg else type(exc).__name__
+    return first_line
+
+
 def run(sql: str, fmt: str = "table", engine: str = "auto") -> list[dict]:
     if engine == "auto":
         engine = detect_engine(sql)
 
-    if engine == "duckdb":
-        columns, rows = run_duckdb(sql)
-    else:
-        columns, rows = run_trino(sql)
+    try:
+        if engine == "duckdb":
+            columns, rows = run_duckdb(sql)
+        else:
+            columns, rows = run_trino(sql)
+    except Exception as exc:
+        cause = _extract_cause(exc)
+        print(f"ERROR [{engine}]: {cause}", file=sys.stderr)
+        sys.exit(1)
 
     records = [dict(zip(columns, row)) for row in rows]
 

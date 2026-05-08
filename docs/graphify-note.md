@@ -33,6 +33,43 @@ graphifyy --mcp
 
 ## 이 레포에서 쓴다면
 
-코드 파일 수가 적어 토큰 절감 효과는 작다.
-대신 `schema.yaml`의 테이블 관계를 graphify로 시각화해 `graph.html`로 탐색하는 용도로 활용할 수 있다.
-테이블·FK 관계가 늘어날수록 유용해진다.
+**적용 대상: `catalog/ontology/` 디렉토리만**
+
+```bash
+# 올바른 사용법
+graphify .   # ❌ 코드베이스 전체 — 의미 없음
+graphify catalog/ontology   # ✅ 온톨로지만
+```
+
+코드 파일 수가 적어 코드베이스 전체에 적용하면 토큰 절감 효과가 없다.
+대신 `catalog/ontology/schema.yaml`의 테이블·컬럼·FK 관계·비즈니스 컨텍스트를
+지식 그래프로 시각화해 탐색하는 용도로 쓴다.
+
+### 실행 전 체크리스트
+
+1. Trino 기동 및 데이터 로드 확인
+   ```bash
+   docker compose up -d
+   venv/bin/python3 scripts/setup_data.py   # 샘플 데이터
+   ```
+2. schema.yaml 최신화
+   ```bash
+   python3 scripts/sync_catalog.py   # Trino → schema.yaml 동기화
+   ```
+3. description 필드 채우기 (비어있으면 graphify 품질 저하)
+4. graphify 실행
+   ```bash
+   graphify catalog/ontology
+   # 또는 /graphify catalog/ontology
+   ```
+
+### 출력물 위치
+
+```
+graphify-out/
+  graph.html       — 브라우저 인터랙티브 탐색
+  GRAPH_REPORT.md  — God Nodes, Surprising Connections, Suggested Questions
+  graph.json       — 쿼리용 원본 데이터
+```
+
+테이블·FK 관계가 늘어날수록, description이 풍부할수록 유용해진다.

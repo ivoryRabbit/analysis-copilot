@@ -18,8 +18,9 @@ import argparse
 import sys
 from pathlib import Path
 
-import trino
 import yaml
+
+from trino_client import get_connection
 
 ONTOLOGY_CONFIG_FILE = Path("catalog/ontology_config.yaml")
 
@@ -55,11 +56,7 @@ def resolve_catalog_file(ontology_path: str | None, config: dict) -> Path:
 
 def fetch_schema(catalog: str, schema: str) -> dict:
     """Trino information_schema에서 컬럼 목록을 가져온다."""
-    conn = trino.dbapi.connect(
-        host="localhost",
-        port=8080,
-        user="admin",
-    )
+    conn = get_connection()
     cur = conn.cursor()
     cur.execute(f"""
         SELECT

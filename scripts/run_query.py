@@ -17,8 +17,9 @@ import sys
 from pathlib import Path
 
 import duckdb
-import trino
 from tabulate import tabulate
+
+from trino_client import get_connection
 
 SCRATCH_DB = Path("scratch/scratch.duckdb")
 
@@ -30,11 +31,7 @@ def detect_engine(sql: str) -> str:
 
 
 def run_trino(sql: str) -> tuple[list[str], list]:
-    conn = trino.dbapi.connect(
-        host="localhost",
-        port=8080,
-        user="admin",
-    )
+    conn = get_connection()
     cur = conn.cursor()
     cur.execute(sql)
     columns = [desc[0] for desc in cur.description]

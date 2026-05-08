@@ -5,5 +5,10 @@
 local_path: catalog/ontology
 schema_file: schema.yaml
 github_repo: your-org/ontology-repo   # gh pr create에 사용 (예: myteam/data-ontology)
+
+# Trino 연결 설정 (인증 정보는 .env에서 관리)
+trino_host: localhost
+trino_port: 8080
+trino_http_scheme: http               # 패스워드 인증 시 https로 변경
 trino_catalog: memory
 trino_schema: default

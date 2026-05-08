@@ -166,7 +166,6 @@ scratch/scratch.duckdb
 
 # graphify 생성물 (schema.yaml에서 재생성 가능)
 graphify-out/
-!graphify-out/GRAPH_REPORT.md
 
 # 온톨로지 repo는 git submodule로 관리 (.gitmodules 참조)
 

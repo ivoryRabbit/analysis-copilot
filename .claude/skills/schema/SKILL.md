@@ -1,6 +1,6 @@
 # /schema — 카탈로그 스키마 탐색
 
-`catalog/schema.yaml`을 읽어 사용 가능한 테이블·컬럼·관계 정보를 보여준다.
+온톨로지 repo의 `schema.yaml`을 읽어 사용 가능한 테이블·컬럼·관계 정보를 보여준다.
 
 ## 사용법
 
@@ -15,7 +15,7 @@
 ### Step 1. schema.yaml 읽기
 
 ```bash
-cat catalog/schema.yaml
+cat $(python scripts/sync_catalog.py --print-schema-path)
 ```
 
 ### Step 2. 출력 형식
@@ -67,4 +67,4 @@ JOIN 경로:
 ### Step 3. 추가 안내
 
 스키마가 최신이 아닌 것 같으면 `/sync`를 먼저 실행하라고 안내한다.
-새 테이블을 추가할 때는 `catalog/schema.yaml`의 `relationships` 섹션에도 FK 관계를 등록해야 한다고 안내한다.
+새 테이블을 추가할 때는 온톨로지 repo `schema.yaml`의 `relationships` 섹션에도 FK 관계를 등록하고, `/sync`로 커밋해야 한다고 안내한다.

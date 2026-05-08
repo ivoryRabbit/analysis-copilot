@@ -1,0 +1,9 @@
+# 온톨로지 repo 설정
+# repo URL은 .gitmodules에서 관리됩니다 (git submodule add 시 자동 생성).
+# 처음 설정: /sync 실행 후 안내에 따라 입력합니다.
+
+local_path: catalog/ontology
+schema_file: schema.yaml
+github_repo: your-org/ontology-repo   # gh pr create에 사용 (예: myteam/data-ontology)
+trino_catalog: memory
+trino_schema: default

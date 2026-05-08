@@ -164,6 +164,8 @@ cython_debug/
 # DuckDB scratch
 scratch/scratch.duckdb
 
+# 온톨로지 repo는 git submodule로 관리 (.gitmodules 참조)
+
 # macOS
 .DS_Store
 

@@ -20,7 +20,7 @@
 |------|------|
 | 쿼리 엔진 | [Trino](https://trino.io) (Docker) |
 | 중간 결과 저장 | [DuckDB](https://duckdb.org) (로컬 파일) |
-| 온톨로지 | `catalog/schema.yaml` |
+| 온톨로지 | 별도 GitHub repo (git submodule) |
 | 차트 | [Plotly](https://plotly.com/python) → HTML |
 | AI 인터페이스 | [Claude Code](https://claude.ai/code) 커스텀 스킬 |
 
@@ -37,15 +37,20 @@
 ### 설치
 
 ```bash
-# 1. 의존성 설치
+# 1. 레포 클론 (온톨로지 submodule 포함)
+git clone --recurse-submodules <repo-url>
+
+# 2. 의존성 설치
 pip install -r requirements.txt
 
-# 2. Trino 실행
+# 3. Trino 실행
 docker-compose up -d
 
-# 3. 샘플 데이터 로드 (Trino 기동 후 ~30초 대기)
+# 4. 샘플 데이터 로드 (Trino 기동 후 ~30초 대기)
 python scripts/setup_data.py
 ```
+
+> **온톨로지 repo가 아직 등록되지 않은 경우:** `/sync` 실행 시 GitHub URL을 입력하면 자동으로 submodule이 설정됩니다.
 
 ### 분석 시작
 
@@ -67,7 +72,7 @@ Claude Code 커스텀 스킬로 분석 워크플로우를 실행합니다.
 | `/chart <타입>` | 마지막 결과를 차트로 시각화 | `/chart bar` `/chart pie` |
 | `/save <name>` | 결과를 DuckDB에 저장해 후속 분석에 재사용 | `/save genre_stats` |
 | `/schema [table]` | 테이블·컬럼·관계 탐색 | `/schema ratings` |
-| `/sync` | Trino 스키마 → `catalog/schema.yaml` 동기화 | `/sync` |
+| `/sync` | Trino 스키마 → 온톨로지 repo 동기화 | `/sync` |
 
 ### 분석 흐름 예시
 
@@ -85,14 +90,16 @@ Claude Code 커스텀 스킬로 분석 워크플로우를 실행합니다.
 ```
 analytics-copilot/
 ├── catalog/
-│   └── schema.yaml       # 테이블·컬럼 메타데이터 + FK 관계 정의
+│   ├── ontology_config.yaml  # 온톨로지 repo 경로 설정
+│   └── ontology/             # 온톨로지 repo (git submodule)
+│       └── schema.yaml       # 테이블·컬럼 메타데이터 + FK 관계 정의
 ├── scripts/
-│   ├── setup_data.py     # 샘플 데이터 로드
-│   ├── run_query.py      # SQL 실행 (Trino / DuckDB 자동 라우팅)
-│   ├── save_result.py    # 결과 → DuckDB named 테이블
-│   ├── chart.py          # Plotly 차트 생성
-│   └── sync_catalog.py   # Trino 스키마 → schema.yaml 동기화
-├── scratch/              # DuckDB 중간 결과 저장소 (로컬 영속)
+│   ├── setup_data.py         # 샘플 데이터 로드
+│   ├── run_query.py          # SQL 실행 (Trino / DuckDB 자동 라우팅)
+│   ├── save_result.py        # 결과 → DuckDB named 테이블
+│   ├── chart.py              # Plotly 차트 생성
+│   └── sync_catalog.py       # Trino 스키마 → 온톨로지 repo 동기화
+├── scratch/                  # DuckDB 중간 결과 저장소 (로컬 영속)
 ├── trino/
 │   └── catalog/
 │       └── memory.properties
